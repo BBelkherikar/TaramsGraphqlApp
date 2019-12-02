@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+     <style type="text/css">
+     
+     .button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+     
+     </style>
+      <script>
+      
+         $(document).ready(function() {
+        	 
+        	 $("#btnGetAllUsers").click(function() {
+        	    $.ajax({url: "http://localhost:8080/graphql",
+                    contentType: "application/json",
+                    type:'POST',
+                    dataType:"json", 
+                    data: JSON.stringify({
+                       query:`{
+                      	  users{
+                      		id
+                      		userName
+                      		password
+                      		email
+                      		firstName
+                      		lastName
+                      		phone
+                      		city
+                      	  }
+                      	}`
+                    }),   
+        		     success: function (data) {
+        		    	 console.log(data);
+        		           var trHTML = '';
+        		           $.each(data.data.users, function (index,item) {
+        		              trHTML += 
+        		                 '<tr><td>' + item.id + 
+        		                 '</td><td>' + item.userName + 
+        		                 '</td><td>' + item.password + 
+        		                 '</td><td>' + item.email + 
+        		                 '</td><td>' + item.firstName +  
+        		                 '</td><td>' + item.lastName +   
+        		                 '</td><td>' + item.phone + 
+        		                 '</td><td>' + item.city + 
+        		                 '</td> <td> <button type="button" id="delete_user" class="button">DELETE</button> </td></tr>';     
+        		           });
+        		             $('#records_table').append(trHTML);
+        		         }   
+        		     });
+        	 });
+        	 
+        	 
+        		 });
+         
+      </script>
+   </head>
+   
+   <body>
+      <h1 style="text-align:center;font-family:verdana;color:blue;">Tarams GraphQL Application</h1>
+
+      <hr/>
+      <section>
+         <button class="button" id = "btnGetAllUsers">GET ALL USERS:</button>
+         <button class="button" id = "btnCreate">NEW USER:</button>
+         <br/> <br/>
+         
+      </section>
+      
+      <br/> <br/> <br/>
+      
+      <table id="records_table" border='1'>
+    <tr>
+        <th align="center" width="50">Id</th>
+        <th align="center" width="100">UserName</th>
+        <th align="center" width="100">Password</th>
+        <th align="center" width="100">Email</th>
+        <th align="center" width="100">FirstName</th>
+        <th align="center" width="100">LastName</th>
+        <th align="center" width="100">Phone</th>
+        <th align="center" width="100">City</th>
+    </tr>
+</table>
+      
+      <hr/>
+   </body>
+</html>
+
+
+ 

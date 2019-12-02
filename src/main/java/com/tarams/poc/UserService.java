@@ -38,12 +38,38 @@ private UserRepository store ;
 		);
 	}
 	
-	public User newUser(String login, String name) {
+//	public User newUser(String login, String name) {
+//		User u = new User();
+//		u.setLogin(login);
+//		u.setName(name);
+//		return this.store.save(u);
+//	}
+	
+	public User updateUser(int id , String userName, String password, String email, String firstName, String lastName, String phone, String city) {
 		User u = new User();
-		u.setLogin(login);
-		u.setName(name);
+		u.setId(id);
+		u.setUserName(userName);
+		u.setPassword(password);
+		u.setEmail(email);
+		u.setFirstName(firstName);
+		u.setLastName(lastName);
+		u.setPhone(phone);
+		u.setCity(city);
 		return this.store.save(u);
-	}
+		} 
+	
+	
+		public User newUser(String userName, String password, String email, String firstName, String lastName, String phone, String city) {
+		User u = new User();
+		u.setUserName(userName);
+		u.setPassword(password);
+		u.setEmail(email);
+		u.setFirstName(firstName);
+		u.setLastName(lastName);
+		u.setPhone(phone);
+		u.setCity(city);
+		return this.store.save(u);
+		}
 	
 	public User saveUser(User user) {
 		return this.store.save(user);
