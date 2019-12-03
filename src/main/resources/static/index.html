@@ -61,8 +61,39 @@
         		     });
         	 });
         	 
+        	 $("#delete_user").click(function() {
+                 $.ajax({url: "http://localhost:8080/graphql",
+                         contentType: "application/json",
+                         type:'POST',
+                         dataType:"json",
+                         data: JSON.stringify({
+                            mutation: `{
+                             deleteUser(id : 1
+                              )
+                             {
+                               id  
+                             }
+                            }`
+                         }),  
+                  success: function (data) {
+                  console.log(data);
+                       
+                      }  
+                  });
+              });
         	 
-        		 });
+        	 
+        	/*  function redirectNewUser() {
+	        	     var url = "http://www.(url).com"; 
+	        	   var url = "/membersPage.html";
+	        	    window.location(url);
+        	    } */
+        	    
+        	 $('#btnCreate').click(function() {
+        	     window.location.href = '/newUser.html';
+        	 });
+        	 
+       });
          
       </script>
    </head>
@@ -72,8 +103,8 @@
 
       <hr/>
       <section>
-         <button class="button" id = "btnGetAllUsers">GET ALL USERS:</button>
-         <button class="button" id = "btnCreate">NEW USER:</button>
+         <button class="button" id = "btnGetAllUsers">GET ALL USERS</button>
+         <button class="button" name="redirectNewUser "id ="btnCreate">NEW USER</button>
          <br/> <br/>
          
       </section>
