@@ -60,7 +60,10 @@ private UserRepository store ;
 	
 	
 		public User newUser(String userName, String password, String email, String firstName, String lastName, String phone, String city) {
-		User u = new User();
+		System.out.println("Am In New user serive" + userName);
+	    User u = new User();
+        int newUserid= u.getId();
+        u.setId(newUserid);
 		u.setUserName(userName);
 		u.setPassword(password);
 		u.setEmail(email);
@@ -68,6 +71,7 @@ private UserRepository store ;
 		u.setLastName(lastName);
 		u.setPhone(phone);
 		u.setCity(city);
+		System.out.println("New user object for create= " +u.toString());
 		return this.store.save(u);
 		}
 	

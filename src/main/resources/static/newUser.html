@@ -1,0 +1,205 @@
+<!doctype html>
+
+<html>
+<head>
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+ <style>
+  
+ body{
+        background: lightgray;
+        margin: 0 auto;
+        font-family: arial;
+     }
+
+h1{
+       color: brown;
+       text-align: center;
+  }
+      
+label{
+       color: #777;
+       width: 10%;
+       display: inline-block;
+
+    }
+
+#container {
+       padding: 20px;
+       width: 60%;
+       margin: 0 auto;
+       margin-top: 1%;
+       margin-bottom: 1%;
+       background-color: white;
+      }
+
+ .userinput{
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-bottom: 30px;
+
+   }
+label{
+
+    color: brown;
+    font-size: 14px;
+}
+   
+textarea{
+ 	color: brown;
+    font-size: 14px;
+   }
+
+   select{
+    color: brown;
+   }
+ 
+   .sampleBtn{
+   
+       background-color: #f1f1f1;
+       width: 20%;
+       height: 35px;
+       font-size: 16px;
+
+   }
+ .sampleBtn:hover{
+          color: white;
+          background-color: brown;
+          cursor: pointer;
+   }
+ </style>
+ 
+ <script>
+ 
+
+ $(document).ready(function() {
+	 
+	 $("form").submit(function(e){
+         alert('submit intercepted');
+         e.preventDefault(e);
+     });
+	 
+	 $('#btn_Home_User').click(function() {
+	     window.location.href = '/index.html';
+	 });
+	 
+	 
+	 
+	 $("#btn_Create_User").click(function() {
+		 var userName = $("#userName").val();
+		 var password = $("#password").val();
+		 var email = $("#email").val();
+		 var firstName = $("#firstName").val();
+		 var lastName = $("#lastName").val();
+		 var phone = $("#phone").val();
+		 var city = $("#city").val();
+			
+	    	$.ajax({url: "http://localhost:8080/graphql",
+            contentType: "application/json",
+            type:'POST',
+            dataType:"json",
+            data: JSON.stringify({
+                  query:`mutation createUser($userName: String!, $password: String!,$email: String!,$firstName: String!,$lastName: String!,$phone: String!,$city: String!) {
+                	  createUser(userName:$userName,password:$password,email:$email,firstName:$firstName,lastName:$lastName,phone:$phone,city:$city) {
+                		  id
+                		  userName
+                	  } 
+                  }`,
+                  variables: {
+                  userName: userName,
+                  password: password,
+                  email: email,
+                  firstName: firstName,
+                  lastName: lastName,
+                  phone: phone,
+                  city:city,
+                }   
+            }),   
+		     success: function (data) {
+		    	 console.log(data);
+		          var prHTML = '';
+		        	  prHTML = 
+		                 '<p id="paragraph1" style=color:green;> User ' +data.data.createUser.userName+ ' Registered successfully. With Id = ' + data.data.createUser.id + 
+		                 '</p>';     
+		         
+		             $('#confirm_Message').append(prHTML); 
+		         }   
+		     });
+	 });
+	  
+	 $('#btn_Reset_User').click(function(){
+	       $("#paragraph1").remove();
+	});
+	 
+});
+ 
+ 
+ </script>
+ 
+
+</head>
+
+<body>
+<div id="container">
+ <h1> User Registration Form </h1>
+ 
+ <form  action="#">
+ 
+  <div class="userinput">
+   <label> User Name  </label>
+   <input type="text" name="userName" id="userName" value="" />
+  </div>
+  
+   <div class="userinput">
+   <label> Password  </label>
+   <input type="text" name="password" id="password"value="" />
+  </div>
+  
+     <div class="userinput">
+   <label> Email  </label>
+   <input type="text" name="email" id="email"value="" />
+  </div>
+  
+  
+    <div class="userinput">
+   <label> First Name  </label>
+   <input type="text" name="firstName" id="firstName" value="" />
+  </div>
+  
+  <div class="userinput">
+   <label> Last Name  </label>
+   <input type="text" name="lastName" id="lastName" value="" />
+  </div>
+  
+   <div class="userinput">
+   <label> Mobile No  </label>
+   <input type="text" name="phone" id="phone" value="" />
+  </div>
+  
+   <div class="userinput">
+   <label> City  </label>
+   <input type="text" name="city" id="city" value="" />
+  </div>
+  
+    <div>
+   	<section id="confirm_Message" class="confirm_Message">
+   	
+   	</section>
+  </div>
+  
+  
+  <div style="text-align:center">
+   <input type="button" value="Home" id="btn_Home_User" class="sampleBtn"/> 
+   <input type="reset"  id="btn_Reset_User" class="sampleBtn"/>
+   <input type="submit" id="btn_Create_User" class="sampleBtn"/> 
+   
+  </div>
+  
+ </form>
+ 
+ </div>
+ 
+</body>
+
+</html>
